@@ -73,7 +73,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@types/sqlstring": "2.3.2",
-    "drizzle-kit": "0.31.1",
+    "drizzle-kit": "0.31.8",
     "esbuild": "^0.25.5",
     "jsdom": "^26.1.0",
     "knip": "^5.60.2",
