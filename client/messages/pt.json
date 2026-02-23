@@ -275,8 +275,8 @@
   "753yX5": "Rótulo",
   "+SDMR3": "Propriedade",
   "znwd1N": "Excluir Funil",
-  "qpwIG+": "Erro ao carregar funil:",
   "qDwvZ4": "Erro desconhecido",
+  "qpwIG+": "Erro ao carregar funil:",
   "SB3+JE": "Nenhum dado de funil disponível",
   "45gABM": "Tem certeza de que deseja excluir \"{name}\"? Esta ação não pode ser desfeita.",
   "noZdV2": "Excluindo...",
@@ -1162,5 +1162,13 @@
   "5YSWst": "Script está instalado e funcionando corretamente.",
   "EIQFLe": "Tag de script encontrada mas não executando",
   "+x0BAO": "Script não detectado",
-  "rOpS8J": "Rybbit v{latest} está disponível (você está na v{current})"
+  "rOpS8J": "Rybbit v{latest} está disponível (você está na v{current})",
+  "A4AHkc": "Min",
+  "JIOFW/": "5 min",
+  "6uQnsi": "10 min",
+  "IoiMPE": "15 min",
+  "b11WUZ": "Hora",
+  "7pXrnq": "Dia",
+  "sd2ieZ": "Semana",
+  "TBovrx": "Mês"
 }

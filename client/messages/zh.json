@@ -275,8 +275,8 @@
   "753yX5": "标签",
   "+SDMR3": "属性",
   "znwd1N": "删除漏斗",
-  "qpwIG+": "加载漏斗出错：",
   "qDwvZ4": "未知错误",
+  "qpwIG+": "加载漏斗出错：",
   "SB3+JE": "没有可用的漏斗数据",
   "45gABM": "您确定要删除“{name}”吗？此操作无法撤销。",
   "noZdV2": "正在删除...",
@@ -1162,5 +1162,13 @@
   "5YSWst": "脚本已安装并正常运行。",
   "EIQFLe": "找到了脚本标签，但未执行",
   "+x0BAO": "未检测到脚本",
-  "rOpS8J": "Rybbit v{latest} 现已发布（您当前使用的是 v{current}）"
+  "rOpS8J": "Rybbit v{latest} 现已发布（您当前使用的是 v{current}）",
+  "A4AHkc": "分钟",
+  "JIOFW/": "5分钟",
+  "6uQnsi": "10分钟",
+  "IoiMPE": "15分钟",
+  "b11WUZ": "小时",
+  "7pXrnq": "天",
+  "sd2ieZ": "周",
+  "TBovrx": "月"
 }

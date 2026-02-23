@@ -275,8 +275,8 @@
   "753yX5": "Etykieta",
   "+SDMR3": "Właściwość",
   "znwd1N": "Usuń lejek",
-  "qpwIG+": "Błąd ładowania lejka:",
   "qDwvZ4": "Nieznany błąd",
+  "qpwIG+": "Błąd ładowania lejka:",
   "SB3+JE": "Brak dostępnych danych lejka",
   "45gABM": "Czy na pewno chcesz usunąć \"{name}\"? Tej czynności nie można cofnąć.",
   "noZdV2": "Usuwanie...",
@@ -1162,5 +1162,13 @@
   "5YSWst": "Skrypt jest zainstalowany i działa poprawnie.",
   "EIQFLe": "Znaleziono tag skryptu, ale nie jest wykonywany",
   "+x0BAO": "Skrypt nie wykryty",
-  "rOpS8J": "Rybbit v{latest} jest dostępny (masz v{current})"
+  "rOpS8J": "Rybbit v{latest} jest dostępny (masz v{current})",
+  "A4AHkc": "Min",
+  "JIOFW/": "5 min",
+  "6uQnsi": "10 min",
+  "IoiMPE": "15 min",
+  "b11WUZ": "Godzina",
+  "7pXrnq": "Dzień",
+  "sd2ieZ": "Tydzień",
+  "TBovrx": "Miesiąc"
 }

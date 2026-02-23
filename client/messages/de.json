@@ -275,8 +275,8 @@
   "753yX5": "Bezeichnung",
   "+SDMR3": "Eigenschaft",
   "znwd1N": "Trichter löschen",
-  "qpwIG+": "Fehler beim Laden des Trichters:",
   "qDwvZ4": "Unbekannter Fehler",
+  "qpwIG+": "Fehler beim Laden des Trichters:",
   "SB3+JE": "Keine Trichterdaten verfügbar",
   "45gABM": "Sind Sie sicher, dass Sie \"{name}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
   "noZdV2": "Wird gelöscht...",
@@ -1162,5 +1162,13 @@
   "5YSWst": "Skript ist installiert und läuft korrekt.",
   "EIQFLe": "Script-Tag gefunden, wird aber nicht ausgeführt",
   "+x0BAO": "Skript nicht erkannt",
-  "rOpS8J": "Rybbit v{latest} ist verfügbar (Sie verwenden v{current})"
+  "rOpS8J": "Rybbit v{latest} ist verfügbar (Sie verwenden v{current})",
+  "A4AHkc": "Min",
+  "JIOFW/": "5 Min",
+  "6uQnsi": "10 Min",
+  "IoiMPE": "15 Min",
+  "b11WUZ": "Stunde",
+  "7pXrnq": "Tag",
+  "sd2ieZ": "Woche",
+  "TBovrx": "Monat"
 }

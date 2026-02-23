@@ -275,8 +275,8 @@
   "753yX5": "Libellé",
   "+SDMR3": "Propriété",
   "znwd1N": "Supprimer l'entonnoir",
-  "qpwIG+": "Erreur lors du chargement de l'entonnoir :",
   "qDwvZ4": "Erreur inconnue",
+  "qpwIG+": "Erreur lors du chargement de l'entonnoir :",
   "SB3+JE": "Aucune donnée d'entonnoir disponible",
   "45gABM": "Êtes-vous sûr de vouloir supprimer \"{name}\" ? Cette action est irréversible.",
   "noZdV2": "Suppression en cours...",
@@ -1162,5 +1162,13 @@
   "5YSWst": "Le script est installé et fonctionne correctement.",
   "EIQFLe": "Balise script trouvée mais ne s'exécute pas",
   "+x0BAO": "Script non détecté",
-  "rOpS8J": "Rybbit v{latest} est disponible (vous utilisez v{current})"
+  "rOpS8J": "Rybbit v{latest} est disponible (vous utilisez v{current})",
+  "A4AHkc": "Min",
+  "JIOFW/": "5 min",
+  "6uQnsi": "10 min",
+  "IoiMPE": "15 min",
+  "b11WUZ": "Heure",
+  "7pXrnq": "Jour",
+  "sd2ieZ": "Semaine",
+  "TBovrx": "Mois"
 }

@@ -275,8 +275,8 @@
   "753yX5": "Etiqueta",
   "+SDMR3": "Propiedad",
   "znwd1N": "Eliminar embudo",
-  "qpwIG+": "Error al cargar embudo:",
   "qDwvZ4": "Error desconocido",
+  "qpwIG+": "Error al cargar embudo:",
   "SB3+JE": "No hay datos de embudo disponibles",
   "45gABM": "¿Estás seguro de que quieres eliminar \"{name}\"? Esta acción no se puede deshacer.",
   "noZdV2": "Eliminando...",
@@ -1162,5 +1162,13 @@
   "5YSWst": "El script está instalado y funcionando correctamente.",
   "EIQFLe": "Etiqueta de script encontrada pero no se está ejecutando",
   "+x0BAO": "Script no detectado",
-  "rOpS8J": "Rybbit v{latest} está disponible (estás en v{current})"
+  "rOpS8J": "Rybbit v{latest} está disponible (estás en v{current})",
+  "A4AHkc": "Min",
+  "JIOFW/": "5 min",
+  "6uQnsi": "10 min",
+  "IoiMPE": "15 min",
+  "b11WUZ": "Hora",
+  "7pXrnq": "Día",
+  "sd2ieZ": "Semana",
+  "TBovrx": "Mes"
 }

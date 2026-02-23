@@ -275,8 +275,8 @@
   "753yX5": "Etichetta",
   "+SDMR3": "Proprietà",
   "znwd1N": "Elimina Funnel",
-  "qpwIG+": "Errore nel caricamento del funnel:",
   "qDwvZ4": "Errore sconosciuto",
+  "qpwIG+": "Errore nel caricamento del funnel:",
   "SB3+JE": "Nessun dato del funnel disponibile",
   "45gABM": "Sei sicuro di voler eliminare \"{name}\"? Questa azione non può essere annullata.",
   "noZdV2": "Eliminazione in corso...",
@@ -1162,5 +1162,13 @@
   "5YSWst": "Lo script è installato e funzionante correttamente.",
   "EIQFLe": "Tag script trovato ma non in esecuzione",
   "+x0BAO": "Script non rilevato",
-  "rOpS8J": "Rybbit v{latest} è disponibile (sei sulla v{current})"
+  "rOpS8J": "Rybbit v{latest} è disponibile (sei sulla v{current})",
+  "A4AHkc": "Min",
+  "JIOFW/": "5 min",
+  "6uQnsi": "10 min",
+  "IoiMPE": "15 min",
+  "b11WUZ": "Ora",
+  "7pXrnq": "Giorno",
+  "sd2ieZ": "Settimana",
+  "TBovrx": "Mese"
 }
