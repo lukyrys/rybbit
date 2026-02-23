@@ -275,8 +275,8 @@
   "753yX5": "Label",
   "+SDMR3": "Property",
   "znwd1N": "Delete Funnel",
-  "qpwIG+": "Error loading funnel:",
   "qDwvZ4": "Unknown error",
+  "qpwIG+": "Error loading funnel:",
   "SB3+JE": "No funnel data available",
   "45gABM": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
   "noZdV2": "Deleting...",
@@ -1162,5 +1162,13 @@
   "5YSWst": "Script is installed and running correctly.",
   "EIQFLe": "Script tag found but not executing",
   "+x0BAO": "Script not detected",
-  "rOpS8J": "Rybbit v{latest} is available (you're on v{current})"
+  "rOpS8J": "Rybbit v{latest} is available (you're on v{current})",
+  "A4AHkc": "Min",
+  "JIOFW/": "5 Min",
+  "6uQnsi": "10 Min",
+  "IoiMPE": "15 Min",
+  "b11WUZ": "Hour",
+  "7pXrnq": "Day",
+  "sd2ieZ": "Week",
+  "TBovrx": "Month"
 }

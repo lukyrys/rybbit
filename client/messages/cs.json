@@ -275,8 +275,8 @@
   "753yX5": "Popisek",
   "+SDMR3": "Vlastnost",
   "znwd1N": "Smazat trychtýř",
-  "qpwIG+": "Chyba při načítání trychtýře:",
   "qDwvZ4": "Neznámá chyba",
+  "qpwIG+": "Chyba při načítání trychtýře:",
   "SB3+JE": "Žádná data trychtýře k dispozici",
   "45gABM": "Opravdu chceš smazat \"{name}\"? Tuto akci nelze vrátit zpět.",
   "noZdV2": "Mažu...",
@@ -1162,5 +1162,13 @@
   "5YSWst": "Skript je nainstalován a funguje správně.",
   "EIQFLe": "Tag skriptu nalezen, ale nespouští se",
   "+x0BAO": "Skript nebyl detekován",
-  "rOpS8J": "Rybbit v{latest} je k dispozici (máš v{current})"
+  "rOpS8J": "Rybbit v{latest} je k dispozici (máš v{current})",
+  "A4AHkc": "Min",
+  "JIOFW/": "5 min",
+  "6uQnsi": "10 min",
+  "IoiMPE": "15 min",
+  "b11WUZ": "Hodina",
+  "7pXrnq": "Den",
+  "sd2ieZ": "Týden",
+  "TBovrx": "Měsíc"
 }
