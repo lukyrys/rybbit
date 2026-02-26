@@ -13,6 +13,7 @@ import { formatChartDateTime, hour12, userLocale } from "@/lib/dateTimeUtils";
 import { useNivoTheme } from "@/lib/nivo";
 import { getTimezone, useStore } from "@/lib/store";
 import { formatter } from "@/lib/utils";
+import { useGetSite } from "../../../../api/admin/hooks/useSites";
 import { CardLoader } from "../../../../components/ui/card";
 
 const EVENT_TYPE_CONFIG = [
@@ -28,9 +29,9 @@ const EVENT_TYPE_CONFIG = [
 ] as const;
 
 // Translated labels keyed by the raw label
-function getTranslatedEventTypeLabels(t: (key: string) => string): Record<string, string> {
+function getTranslatedEventTypeLabels(t: (key: string) => string, isApp: boolean): Record<string, string> {
   return {
-    Pageviews: t("Pageviews"),
+    Pageviews: isApp ? t("Screenviews") : t("Pageviews"),
     "Custom Events": t("Custom Events"),
     Performance: t("Performance"),
     Outbound: t("Outbound"),
@@ -58,6 +59,8 @@ type Series = {
 
 export function EventTypesChart() {
   const t = useExtracted();
+  const { data: siteMetadata } = useGetSite();
+  const isApp = siteMetadata?.type === "app";
   const { bucket } = useStore();
   const { data, isLoading } = useGetSiteEventCount();
   const { width } = useWindowSize();
@@ -77,7 +80,7 @@ export function EventTypesChart() {
     });
   };
 
-  const translatedLabels = getTranslatedEventTypeLabels(t);
+  const translatedLabels = getTranslatedEventTypeLabels(t, isApp);
 
   const { series, legendItems, maxValue, totalPoints } = useMemo(() => {
     if (!data || data.length === 0) {
