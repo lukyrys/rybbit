@@ -18,6 +18,7 @@ import { VisitCalendar } from "./Calendar";
 import { EventIcon, PageviewIcon } from "../../../../../components/EventIcons";
 import { UserInfo, UserSessionCountResponse } from "../../../../../api/analytics/endpoints";
 import { DeviceIcon } from "../../../components/shared/icons/Device";
+import { useGetSite } from "../../../../../api/admin/hooks/useSites";
 
 interface UserSidebarProps {
   data: UserInfo | undefined;
@@ -86,6 +87,8 @@ function StatCard({
 
 export function UserSidebar({ data, isLoading, sessionCount, getRegionName }: UserSidebarProps) {
   const t = useExtracted();
+  const { data: siteMetadata } = useGetSite();
+  const isApp = siteMetadata?.type === "app";
   const { formatRelative } = useDateTimeFormat();
   const isIdentified = !!data?.identified_user_id;
 
@@ -107,7 +110,7 @@ export function UserSidebar({ data, isLoading, sessionCount, getRegionName }: Us
           />
           <StatCard
             icon={<PageviewIcon className="w-3 h-3" />}
-            label={t("Pageviews")}
+            label={isApp ? t("Screenviews") : t("Pageviews")}
             value={data?.pageviews ?? "—"}
             isLoading={isLoading}
           />
@@ -218,18 +221,33 @@ export function UserSidebar({ data, isLoading, sessionCount, getRegionName }: Us
               }
             />
             <InfoRow label={t("Language")} value={data?.language ? getLanguageName(data.language) : "—"} />
-            <InfoRow
-              icon={
-                <DeviceIcon deviceType={data?.device_type || ""} size={13} />
-              }
-              label={t("Device")}
-              value={data?.device_type ?? "—"}
-            />
-            <InfoRow
-              icon={<Browser browser={data?.browser || "Unknown"} size={13} />}
-              label={t("Browser")}
-              value={data?.browser ? `${data.browser}${data.browser_version ? ` v${data.browser_version}` : ""}` : "—"}
-            />
+            {!isApp && (
+              <InfoRow
+                icon={
+                  <DeviceIcon deviceType={data?.device_type || ""} size={13} />
+                }
+                label={t("Device")}
+                value={data?.device_type ?? "—"}
+              />
+            )}
+            {isApp ? (
+              <>
+                <InfoRow
+                  label={t("Device Model")}
+                  value={data?.device_model || "—"}
+                />
+                <InfoRow
+                  label={t("App Version")}
+                  value={data?.app_version ? `v${data.app_version}` : "—"}
+                />
+              </>
+            ) : (
+              <InfoRow
+                icon={<Browser browser={data?.browser || "Unknown"} size={13} />}
+                label={t("Browser")}
+                value={data?.browser ? `${data.browser}${data.browser_version ? ` v${data.browser_version}` : ""}` : "—"}
+              />
+            )}
             <InfoRow
               icon={<OperatingSystem os={data?.operating_system || ""} size={13} />}
               label={t("OS")}
