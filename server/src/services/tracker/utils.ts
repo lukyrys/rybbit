@@ -23,6 +23,8 @@ export type TotalTrackingPayload = TrackingPayload & {
   inp?: number;
   fcp?: number;
   ttfb?: number;
+  app_version?: string;
+  device_model?: string;
 };
 
 // Infer type from Zod schema
