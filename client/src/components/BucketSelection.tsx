@@ -114,7 +114,7 @@ export function BucketSelection() {
     }
 
     if (time.mode === "range") {
-      const timeRangeLength = DateTime.fromISO(time.endDate).diff(DateTime.fromISO(time.startDate), "days").days;
+      const timeRangeLength = DateTime.fromISO(time.endDate).diff(DateTime.fromISO(time.startDate), "days").days + 1;
 
       return (
         <SelectContent>
