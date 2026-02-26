@@ -23,6 +23,8 @@ const baseEventFields = {
   user_id: z.string().max(255).optional(),
   ip_address: z.string().ip().optional(),
   user_agent: z.string().max(512).optional(),
+  app_version: z.string().max(50).optional(),
+  device_model: z.string().max(200).optional(),
 };
 
 // Default event_name and properties used by pageview and performance

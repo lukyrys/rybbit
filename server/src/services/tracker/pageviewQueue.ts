@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import { clickhouse } from "../../db/clickhouse/clickhouse.js";
 import { getLocation } from "../../db/geolocation/geolocation.js";
 import { createServiceLogger } from "../../lib/logger/logger.js";
-import { getDeviceType } from "../../utils.js";
+import { getDeviceType, parseSDKUserAgent } from "../../utils.js";
 import { getChannel } from "./getChannel.js";
 import { clearSelfReferrer, getAllUrlParams, TotalTrackingPayload } from "./utils.js";
 
@@ -54,6 +54,7 @@ class PageviewQueue {
       const longitude = dataForIp?.longitude || 0;
       const city = dataForIp?.city || "";
       const timezone = dataForIp?.timeZone || "";
+      const sdkUA = parseSDKUserAgent(pv.ua.ua || "");
 
       // Check if referrer is from the same domain and clear it if so
       let referrer = clearSelfReferrer(pv.referrer || "", pv.hostname || "");
@@ -73,10 +74,10 @@ class PageviewQueue {
         page_title: pv.page_title || "",
         referrer: referrer,
         channel: getChannel(referrer, pv.querystring, pv.hostname),
-        browser: pv.ua.browser.name || "",
-        browser_version: pv.ua.browser.major || "",
-        operating_system: pv.ua.os.name || "",
-        operating_system_version: pv.ua.os.version || "",
+        browser: sdkUA ? sdkUA.browser : (pv.ua.browser.name || ""),
+        browser_version: sdkUA ? sdkUA.browserVersion : (pv.ua.browser.major || ""),
+        operating_system: sdkUA ? sdkUA.os : (pv.ua.os.name || ""),
+        operating_system_version: sdkUA ? sdkUA.osVersion : (pv.ua.os.version || ""),
         language: pv.language || "",
         screen_width: pv.screenWidth || 0,
         screen_height: pv.screenHeight || 0,
@@ -114,6 +115,8 @@ class PageviewQueue {
         is_proxy: dataForIp?.isProxy ?? null,
         is_tor: dataForIp?.isTor ?? null,
         is_satellite: dataForIp?.isSatellite ?? null,
+        app_version: pv.app_version || "",
+        device_model: pv.device_model || "",
       };
     });
 
