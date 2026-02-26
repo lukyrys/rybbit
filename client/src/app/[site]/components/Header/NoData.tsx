@@ -6,6 +6,7 @@ import {
   SiContentful,
   SiDocusaurus,
   SiDrupal,
+  SiFlutter,
   SiFramer,
   SiGatsby,
   SiGhost,
@@ -74,6 +75,9 @@ export function NoData() {
   const { data: siteHasData, isLoading } = useSiteHasData(site);
   const { data: siteMetadata, isLoading: isLoadingSiteMetadata } = useGetSite(site);
 
+  const siteType = siteMetadata?.type || "web";
+  const isApp = siteType !== "web";
+
   if (!siteHasData && !isLoading && !isLoadingSiteMetadata) {
     return (
       <>
@@ -86,28 +90,58 @@ export function NoData() {
               </span>
               <div className="font-medium">{t("Waiting for analytics from {domain}...", { domain: siteMetadata?.domain ?? "" })}</div>
             </div>
-            <div className="text-xs text-muted-foreground">{t("Place this snippet in the {headTag} of your website:", { headTag: "<head>" })}</div>
-            <CodeSnippet
-              language="HTML"
-              code={`<script\n    src="${globalThis.location.origin}/api/script.js"\n    data-site-id="${siteMetadata?.id ?? siteMetadata?.siteId}"\n    defer\n></script>`}
-              className="text-xs"
-            />
-            <span className="text-xs text-muted-foreground">
-              {t("See our")}{" "}
-              <a href="https://rybbit.com/docs/script" className="text-blue-500 hover:underline">
-                {t("docs")}
-              </a>{" "}
-              {t("for more information, or")}{" "}
-              <a href="https://rybbit.com/docs/script-troubleshooting" className="text-blue-500 hover:underline">
-                {t("troubleshoot")}
-              </a>{" "}
-              {t("if your script isn't sending traffic.")}
-            </span>
-            {siteMetadata?.siteId && <VerifyInstallation siteId={siteMetadata.siteId} />}
-            {/* Framework Guide Cards */}
-            <div className="">
-              <h2 className="text-sm font-medium mb-4">{t("Platform Guides")}</h2>
-              <div className="flex flex-wrap gap-2">
+            {isApp ? (
+              <>
+                <div className="text-xs text-muted-foreground">{t("Add the Rybbit SDK to your app:")}</div>
+                <CodeSnippet
+                  language="dart"
+                  code={`await Rybbit.init(\n  host: '${globalThis.location?.origin ?? "https://your-rybbit-instance.com"}',\n  siteId: '${siteMetadata?.id ?? siteMetadata?.siteId}',\n);`}
+                  className="text-xs"
+                />
+                <span className="text-xs text-muted-foreground">
+                  {t("See the")}{" "}
+                  <a href="https://github.com/nks-hub/rybbit-flutter" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                    {t("Flutter SDK documentation")}
+                  </a>{" "}
+                  {t("for installation and usage instructions.")}
+                </span>
+                {/* SDK Guide Cards */}
+                <div className="">
+                  <h2 className="text-sm font-medium mb-4">{t("Platform Guides")}</h2>
+                  <div className="flex flex-wrap gap-2">
+                    <Card
+                      icon={<SiFlutter className="w-5 h-5" />}
+                      title="Flutter"
+                      description=""
+                      href="https://github.com/nks-hub/rybbit-flutter"
+                    />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="text-xs text-muted-foreground">{t("Place this snippet in the {headTag} of your website:", { headTag: "<head>" })}</div>
+                <CodeSnippet
+                  language="HTML"
+                  code={`<script\n    src="${globalThis.location.origin}/api/script.js"\n    data-site-id="${siteMetadata?.id ?? siteMetadata?.siteId}"\n    defer\n></script>`}
+                  className="text-xs"
+                />
+                <span className="text-xs text-muted-foreground">
+                  {t("See our")}{" "}
+                  <a href="https://rybbit.com/docs/script" className="text-blue-500 hover:underline">
+                    {t("docs")}
+                  </a>{" "}
+                  {t("for more information, or")}{" "}
+                  <a href="https://rybbit.com/docs/script-troubleshooting" className="text-blue-500 hover:underline">
+                    {t("troubleshoot")}
+                  </a>{" "}
+                  {t("if your script isn't sending traffic.")}
+                </span>
+                {siteMetadata?.siteId && <VerifyInstallation siteId={siteMetadata.siteId} />}
+                {/* Framework Guide Cards */}
+                <div className="">
+                  <h2 className="text-sm font-medium mb-4">{t("Platform Guides")}</h2>
+                  <div className="flex flex-wrap gap-2">
                 <Card
                   icon={<SiGoogletagmanager className="w-5 h-5" />}
                   title="Google Tag Manager"
@@ -321,6 +355,8 @@ export function NoData() {
                 />
               </div>
             </div>
+              </>
+            )}
           </div>
         </Alert>
       </>

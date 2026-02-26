@@ -1,4 +1,5 @@
 "use client";
+import { useGetSite } from "../../../api/admin/hooks/useSites";
 import { useGetLiveUserCount } from "../../../api/analytics/hooks/useGetLiveUserCount";
 import { useSetPageTitle } from "../../../hooks/useSetPageTitle";
 import { IS_CLOUD } from "../../../lib/const";
@@ -26,6 +27,8 @@ export default function MainPage() {
 
 function MainPageContent() {
   const { data } = useGetLiveUserCount(5);
+  const { data: siteMetadata } = useGetSite();
+  const isApp = siteMetadata?.type === "app";
 
   useSetPageTitle(`${data?.count ?? "…"} user${data?.count === 1 ? "" : "s"} online`);
 
@@ -34,14 +37,16 @@ function MainPageContent() {
       <SubHeader />
       <MainSection />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
-        <Referrers />
+        {!isApp && <Referrers />}
         <Pages />
         <Devices />
         <Countries />
         <Events />
-        <Weekdays />
-        {IS_CLOUD && <Network />}
-        {IS_CLOUD && <SearchConsole />}
+        <div className={isApp ? "lg:col-span-2" : ""}>
+          <Weekdays />
+        </div>
+        {IS_CLOUD && !isApp && <Network />}
+        {IS_CLOUD && !isApp && <SearchConsole />}
       </div>
     </div>
   );
