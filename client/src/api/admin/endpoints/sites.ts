@@ -5,6 +5,7 @@ export type SiteResponse = {
   siteId: number;
   name: string;
   domain: string;
+  type?: "web" | "app";
   createdAt: string;
   updatedAt: string;
   createdBy: string;
@@ -45,6 +46,7 @@ export type GetSitesFromOrgResponse = {
     siteId: number;
     name: string;
     domain: string;
+    type?: "web" | "app";
     createdAt: string;
     updatedAt: string;
     createdBy: string;
@@ -77,6 +79,7 @@ export function addSite(
     isPublic?: boolean;
     saltUserIds?: boolean;
     blockBots?: boolean;
+    type?: "web" | "app";
   }
 ) {
   return authedFetch<{ siteId: number }>(`/organizations/${organizationId}/sites`, undefined, {
@@ -87,6 +90,7 @@ export function addSite(
       public: settings?.isPublic || false,
       saltUserIds: settings?.saltUserIds || false,
       blockBots: settings?.blockBots === undefined ? true : settings?.blockBots,
+      type: settings?.type || "web",
     },
     headers: {
       "Content-Type": "application/json",
