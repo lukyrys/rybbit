@@ -1,8 +1,15 @@
 import json
-import re
+from pathlib import Path
 
-# Translations for the 4 empty keys
+BASE_DIR = Path(__file__).resolve().parent
+
 translations = {
+    'cs.json': {
+        'rd5F5r': 'Individuální plán',
+        '5/hIKX': 'Limity plánu',
+        'BdV5Om': 'Weby',
+        'HCYBYT': 'Členové týmu',
+    },
     'zh.json': {
         'rd5F5r': '自定义计划',
         '5/hIKX': '计划限制',
@@ -61,33 +68,29 @@ translations = {
     },
 }
 
-# Load en.json as key order reference
-with open('en.json', 'r', encoding='utf-8') as f:
-    en_content = f.read()
-    en = json.loads(en_content)
+with open(BASE_DIR / 'en.json', 'r', encoding='utf-8') as f:
+    en = json.load(f)
 
 en_key_order = list(en.keys())
 
 for fname, updates in translations.items():
-    with open(fname, 'r', encoding='utf-8') as f:
+    file_path = BASE_DIR / fname
+    with open(file_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
-    # Apply updates
     for key, value in updates.items():
         if key in data:
             data[key] = value
 
-    # Reorder keys to match en.json order
     ordered = {}
     for key in en_key_order:
         if key in data:
             ordered[key] = data[key]
-    # Add any extra keys not in en.json (shouldn't happen, but just in case)
     for key in data:
         if key not in ordered:
             ordered[key] = data[key]
 
-    with open(fname, 'w', encoding='utf-8') as f:
+    with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(ordered, f, ensure_ascii=False, indent=2)
         f.write('\n')
 
