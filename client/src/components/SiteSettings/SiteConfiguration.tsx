@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Smartphone, Trash2, Upload } from "lucide-react";
 import { useExtracted } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState, useCallback, ReactNode } from "react";
@@ -22,8 +22,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
-import { deleteSite, updateSiteConfig, SiteResponse } from "@/api/admin/endpoints";
+import { deleteSite, updateSiteConfig, uploadSiteIcon, deleteSiteIcon, SiteResponse } from "@/api/admin/endpoints";
 import { useGetSitesFromOrg } from "@/api/admin/hooks/useSites";
+import { resizeImageToIcon } from "@/lib/imageUtils";
+import { BACKEND_URL } from "@/lib/const";
 import { normalizeDomain, isValidDomain, isValidPackageName } from "@/lib/utils";
 import { IPExclusionManager } from "./IPExclusionManager";
 import { CountryExclusionManager } from "./CountryExclusionManager";
@@ -80,6 +82,9 @@ export function SiteConfiguration({ siteMetadata, disabled = false, onClose }: S
   });
 
   const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>({});
+  const [iconVersion, setIconVersion] = useState(0);
+  const [isUploadingIcon, setIsUploadingIcon] = useState(false);
+  const [isDeletingIcon, setIsDeletingIcon] = useState(false);
 
   // Generic toggle handler
   const handleToggle = useCallback(
@@ -380,6 +385,84 @@ export function SiteConfiguration({ siteMetadata, disabled = false, onClose }: S
       <IPExclusionManager siteId={siteMetadata.siteId} disabled={disabled} />
       <CountryExclusionManager siteId={siteMetadata.siteId} disabled={disabled} />
       {IS_CLOUD && <GSCManager disabled={disabled} />}
+      {siteType !== "web" && (
+        <div className="space-y-3">
+          <div>
+            <h4 className="text-sm font-semibold text-foreground">{t("App Icon")}</h4>
+            <p className="text-xs text-muted-foreground">{t("Upload a custom icon for your app")}</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <img
+              key={iconVersion}
+              src={`${BACKEND_URL}/sites/${siteMetadata.siteId}/icon?v=${iconVersion}`}
+              alt="App icon"
+              className="w-10 h-10 rounded"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+                (e.target as HTMLImageElement).nextElementSibling?.classList.remove("hidden");
+              }}
+              onLoad={(e) => {
+                (e.target as HTMLImageElement).style.display = "";
+                (e.target as HTMLImageElement).nextElementSibling?.classList.add("hidden");
+              }}
+            />
+            <div className="w-10 h-10 rounded bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center">
+              <Smartphone className="w-5 h-5 text-neutral-400" />
+            </div>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={disabled || isUploadingIcon}
+                onClick={() => {
+                  const input = document.createElement("input");
+                  input.type = "file";
+                  input.accept = "image/*";
+                  input.onchange = async (e) => {
+                    const file = (e.target as HTMLInputElement).files?.[0];
+                    if (!file) return;
+                    setIsUploadingIcon(true);
+                    try {
+                      const base64 = await resizeImageToIcon(file);
+                      await uploadSiteIcon(siteMetadata.siteId, base64);
+                      setIconVersion((v) => v + 1);
+                      toast.success(t("Icon uploaded"));
+                    } catch {
+                      toast.error(t("Failed to upload icon"));
+                    } finally {
+                      setIsUploadingIcon(false);
+                    }
+                  };
+                  input.click();
+                }}
+              >
+                <Upload className="h-4 w-4" />
+                {isUploadingIcon ? t("Uploading...") : t("Upload")}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={disabled || isDeletingIcon}
+                onClick={async () => {
+                  setIsDeletingIcon(true);
+                  try {
+                    await deleteSiteIcon(siteMetadata.siteId);
+                    setIconVersion((v) => v + 1);
+                    toast.success(t("Icon removed"));
+                  } catch {
+                    toast.error(t("Failed to remove icon"));
+                  } finally {
+                    setIsDeletingIcon(false);
+                  }
+                }}
+              >
+                <Trash2 className="h-4 w-4" />
+                {t("Remove")}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="space-y-3">
         <div>
           <h4 className="text-sm font-semibold text-foreground">
