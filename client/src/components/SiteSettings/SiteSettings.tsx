@@ -18,6 +18,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { ScriptBuilder } from "./ScriptBuilder";
+import { SDKIntegration } from "./SDKIntegration";
 import { SiteConfiguration } from "./SiteConfiguration";
 import { ImportManager } from "./ImportManager";
 import { useGetSite } from "../../api/admin/hooks/useSites";
@@ -38,6 +39,8 @@ function SiteSettingsInner({ siteMetadata, trigger }: { siteMetadata: SiteRespon
   const t = useExtracted();
   const { data: userOrganizationsData } = useUserOrganizations();
   const disabled = !userOrganizationsData?.[0]?.role || userOrganizationsData?.[0]?.role === "member";
+
+  const siteType = siteMetadata.type || "web";
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("settings");
@@ -63,12 +66,20 @@ function SiteSettingsInner({ siteMetadata, trigger }: { siteMetadata: SiteRespon
         <Tabs value={activeTab} onValueChange={setActiveTab} className="pb-4">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="settings">{t("Site Settings")}</TabsTrigger>
-            <TabsTrigger value="script">{t("Tracking Script")}</TabsTrigger>
+            <TabsTrigger value="script">{siteType === "web" ? t("Tracking Script") : t("SDK Integration")}</TabsTrigger>
             <TabsTrigger value="import">{t("Import")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="script" className="pt-4 space-y-4 max-h-[70vh] overflow-y-auto">
-            <ScriptBuilder siteId={siteMetadata.id ?? String(siteMetadata.siteId)} />
+            {siteType === "web" ? (
+              <ScriptBuilder siteId={siteMetadata.id ?? String(siteMetadata.siteId)} />
+            ) : (
+              <SDKIntegration
+                siteId={siteMetadata.id ?? String(siteMetadata.siteId)}
+                siteType={siteType as "app"}
+                domain={siteMetadata.domain}
+              />
+            )}
           </TabsContent>
 
           <TabsContent value="import" className="pt-4 space-y-4 max-h-[70vh] overflow-y-auto">
