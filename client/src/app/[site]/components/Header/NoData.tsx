@@ -75,8 +75,8 @@ export function NoData() {
   const { data: siteHasData, isLoading } = useSiteHasData(site);
   const { data: siteMetadata, isLoading: isLoadingSiteMetadata } = useGetSite(site);
 
-  const siteType = siteMetadata?.type || "web";
-  const isApp = siteType !== "web";
+  const siteType = siteMetadata?.type ?? "web";
+  const isApp = siteType === "app";
 
   if (!siteHasData && !isLoading && !isLoadingSiteMetadata) {
     return (
@@ -88,7 +88,7 @@ export function NoData() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500"></span>
               </span>
-              <div className="font-medium">{t("Waiting for analytics from {domain}...", { domain: siteMetadata?.domain ?? "" })}</div>
+              <div className="font-medium">{isApp ? t("Waiting for analytics from your app...") : t("Waiting for analytics from {domain}...", { domain: siteMetadata?.domain ?? "" })}</div>
             </div>
             {isApp ? (
               <>
