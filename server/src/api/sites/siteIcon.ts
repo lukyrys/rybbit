@@ -15,11 +15,14 @@ export async function getSiteIcon(
   request: FastifyRequest<SiteIdParams>,
   reply: FastifyReply
 ) {
-  const { siteId } = request.params;
+  const parsedSiteId = Number.parseInt(request.params.siteId, 10);
+  if (!Number.isInteger(parsedSiteId) || parsedSiteId <= 0) {
+    return reply.status(400).send({ error: "Invalid site ID" });
+  }
 
   try {
     const site = await db.query.sites.findFirst({
-      where: eq(sites.siteId, Number(siteId)),
+      where: eq(sites.siteId, parsedSiteId),
       columns: { icon: true },
     });
 
@@ -41,7 +44,11 @@ export async function uploadSiteIcon(
   request: FastifyRequest<SiteIdParams & { Body: { icon: string } }>,
   reply: FastifyReply
 ) {
-  const { siteId } = request.params;
+  const parsedSiteId = Number.parseInt(request.params.siteId, 10);
+  if (!Number.isInteger(parsedSiteId) || parsedSiteId <= 0) {
+    return reply.status(400).send({ error: "Invalid site ID" });
+  }
+
   const { icon } = request.body as { icon: string };
 
   if (!icon) {
@@ -61,10 +68,15 @@ export async function uploadSiteIcon(
       return reply.status(400).send({ error: "Icon must be a PNG image" });
     }
 
-    await db
+    const result = await db
       .update(sites)
       .set({ icon: buffer })
-      .where(eq(sites.siteId, Number(siteId)));
+      .where(eq(sites.siteId, parsedSiteId))
+      .returning({ siteId: sites.siteId });
+
+    if (result.length === 0) {
+      return reply.status(404).send({ error: "Site not found" });
+    }
 
     return reply.status(200).send({ success: true });
   } catch (error) {
@@ -77,13 +89,21 @@ export async function deleteSiteIcon(
   request: FastifyRequest<SiteIdParams>,
   reply: FastifyReply
 ) {
-  const { siteId } = request.params;
+  const parsedSiteId = Number.parseInt(request.params.siteId, 10);
+  if (!Number.isInteger(parsedSiteId) || parsedSiteId <= 0) {
+    return reply.status(400).send({ error: "Invalid site ID" });
+  }
 
   try {
-    await db
+    const result = await db
       .update(sites)
       .set({ icon: null })
-      .where(eq(sites.siteId, Number(siteId)));
+      .where(eq(sites.siteId, parsedSiteId))
+      .returning({ siteId: sites.siteId });
+
+    if (result.length === 0) {
+      return reply.status(404).send({ error: "Site not found" });
+    }
 
     return reply.status(200).send({ success: true });
   } catch (error) {
