@@ -100,7 +100,7 @@ export function NoData() {
                 />
                 <span className="text-xs text-muted-foreground">
                   {t("See the")}{" "}
-                  <a href="https://github.com/nks-hub/rybbit-flutter" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                  <a href="https://github.com/nks-hub/rybbit-flutter-sdk" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
                     {t("Flutter SDK documentation")}
                   </a>{" "}
                   {t("for installation and usage instructions.")}
@@ -113,7 +113,7 @@ export function NoData() {
                       icon={<SiFlutter className="w-5 h-5" />}
                       title="Flutter"
                       description=""
-                      href="https://github.com/nks-hub/rybbit-flutter"
+                      href="https://github.com/nks-hub/rybbit-flutter-sdk"
                     />
                   </div>
                 </div>
