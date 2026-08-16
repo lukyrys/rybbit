@@ -81,6 +81,33 @@ describe("resolveTrackingRequest", () => {
     });
   });
 
+  it("accepts a native SDK's declared user agent, but not its IP", async () => {
+    // The header belongs to the HTTP client library, not to the app: Dart, OkHttp
+    // and friends send their own, and a browser will not let the SDK set one at
+    // all. Without this the platform, OS version and device model never arrive.
+    const sdkUserAgent = "MyApp/1.4.2 (cz.nkshub.myapp; Android 14; SM-G991B) RybbitFlutter/0.2.5";
+
+    const resolved = await resolveTrackingRequest(
+      request({ "user-agent": "Dart/3.9 (dart:io)", "x-forwarded-for": "198.51.100.20" }),
+      payload({ ip_address: "203.0.113.10", user_agent: sdkUserAgent })
+    );
+
+    expect(resolved).toMatchObject({
+      ipAddress: "198.51.100.20",
+      userAgent: sdkUserAgent,
+      trustedServerSideIngestion: false,
+    });
+  });
+
+  it("keeps the header when a payload user agent is not in SDK format", async () => {
+    const resolved = await resolveTrackingRequest(
+      request({ "user-agent": "Mozilla/5.0 Chrome/120 Safari/537.36" }),
+      payload({ user_agent: "Mozilla/5.0 (Linux; Android 14) Chrome/120 Mobile Safari/537.36" })
+    );
+
+    expect(resolved).toMatchObject({ userAgent: "Mozilla/5.0 Chrome/120 Safari/537.36" });
+  });
+
   it("allows payload IP and user-agent overrides for trusted server-side ingestion", async () => {
     mocks.checkApiKey.mockResolvedValue({
       valid: true,

@@ -3,7 +3,7 @@ import { createAsnLookup, type AsnLookup } from "../../db/geolocation/asn.js";
 import { checkApiKey } from "../../lib/auth-utils.js";
 import { hasScope } from "../../lib/scopes.js";
 import { siteConfig, type SiteConfigData } from "../../lib/siteConfig.js";
-import { getRequestUserAgent } from "../../utils.js";
+import { getRequestUserAgent, parseSDKUserAgent } from "../../utils.js";
 import { collectCandidateClientIps, resolveClientIp } from "./resolveClientIp.js";
 import type { ValidatedTrackingPayload } from "./trackingPayload.js";
 
@@ -96,8 +96,18 @@ export async function resolveTrackingRequest(
 
   // Only a trusted bearer may speak for someone else; for everyone else the
   // payload's ip_address/user_agent are ignored rather than trusted.
+  //
+  // Native SDKs are the exception for the user agent: they describe themselves
+  // in the payload because the header is not theirs to set — an HTTP client
+  // library sends its own (`Dart/3.9 (dart:io)`), and on web the browser forbids
+  // overriding it. Their declaration is accepted only in the SDK format, so a
+  // browser payload still cannot dictate the header that bot detection reads.
   const ipAddress = trustedServerSideIngestion ? payload.ip_address || requestIpAddress : requestIpAddress;
-  const userAgent = trustedServerSideIngestion ? payload.user_agent || requestUserAgent : requestUserAgent;
+  const declaredSdkUserAgent =
+    payload.user_agent && parseSDKUserAgent(payload.user_agent) ? payload.user_agent : "";
+  const userAgent = trustedServerSideIngestion
+    ? payload.user_agent || requestUserAgent
+    : declaredSdkUserAgent || requestUserAgent;
 
   return {
     payload,
