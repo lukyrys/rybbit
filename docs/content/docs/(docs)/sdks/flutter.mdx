@@ -58,7 +58,7 @@ Future<void> main() async {
 | `dryRun`              | `bool`                | `false` | Log payloads without sending them.                              |
 | `autoTrackLifecycle`  | `bool`                | `true`  | Emit `app_open`, `app_foreground`, `app_background`.            |
 | `autoTrackErrors`     | `bool`                | `true`  | Capture uncaught Flutter and Dart errors.                       |
-| `autoUploadIcon`      | `bool`                | `true`  | Attempt to upload the launcher icon on first run. See below.    |
+| `autoUploadIcon`      | `bool`                | `false` | Attempt to upload the launcher icon on first run. See below.    |
 | `iconAssetPath`       | `String?`             | `null`  | Asset to upload instead of the platform launcher icon.          |
 | `globalProperties`    | `Map<String, dynamic>`| `{}`    | Merged into every event's properties.                           |
 | `maxOfflineEvents`    | `int`                 | `1000`  | Offline queue size.                                             |
@@ -108,10 +108,14 @@ try {
 }
 ```
 
-To also catch errors thrown outside the Flutter zone, start the app through the SDK:
+To catch asynchronous errors in the SDK error zone, initialize and start the app in the same callback:
 
 ```dart
-Rybbit.runApp(const MyApp());
+Rybbit.runApp(() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Rybbit.init(host: 'https://app.rybbit.io', siteId: '1');
+  runApp(const MyApp());
+});
 ```
 
 ## User Identification
