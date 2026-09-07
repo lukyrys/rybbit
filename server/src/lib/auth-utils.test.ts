@@ -139,7 +139,8 @@ CREATE TABLE "sites" (
   "api_key" text,
   "private_link_key" text,
   "tags" jsonb DEFAULT '[]',
-  "icon" bytea
+  "icon" bytea,
+  "detected_platform" text
 );
 `;
 

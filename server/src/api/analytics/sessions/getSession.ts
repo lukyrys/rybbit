@@ -99,8 +99,8 @@ SELECT
     dateDiff('second', min(timestamp), max(timestamp)) as session_duration,
     countIf(type = 'pageview') as pageviews,
     count() as events,
-    argMinIf(pathname, timestamp, type = 'pageview') as entry_page,
-    argMaxIf(pathname, timestamp, type = 'pageview') as exit_page,
+    argMinIf(pathname, timestamp_ms, type = 'pageview') as entry_page,
+    argMaxIf(pathname, timestamp_ms, type = 'pageview') as exit_page,
     any(ip) AS ip
 FROM events
 WHERE
@@ -126,7 +126,7 @@ WHERE
   // 3. Query to get paginated pageviews
   const eventsQuery = `
 SELECT
-    timestamp,
+    timestamp_ms AS timestamp,
     pathname,
     hostname,
     querystring,
@@ -141,7 +141,7 @@ WHERE
     AND session_id = {sessionId:String}
     AND type != 'performance'
     ${timeFilterWithConnector}
-ORDER BY timestamp ASC
+ORDER BY timestamp_ms ASC
 LIMIT {limit:Int32}
 OFFSET {offset:Int32}
     `;
