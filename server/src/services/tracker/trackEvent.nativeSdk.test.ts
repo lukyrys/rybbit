@@ -6,11 +6,11 @@ import { trackingPayloadSchema } from "./trackingPayload.js";
 // dropping the declaration turns each one into a 400 with no server-side
 // symptom other than traffic quietly disappearing.
 
-const UA = "MyApp/1.4.2 (cz.nkshub.myapp; Android 14; SM-G991B) RybbitFlutter/0.2.4";
+const UA = "MyApp/1.4.2 (com.example.app; Android 14; SM-G991B) RybbitFlutter/0.2.4";
 
 const nativeBase = {
   site_id: "42",
-  hostname: "cz.nkshub.myapp",
+  hostname: "com.example.app",
   pathname: "/home",
   screenWidth: 1080,
   screenHeight: 2400,
