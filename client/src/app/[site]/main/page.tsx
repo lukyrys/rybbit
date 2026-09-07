@@ -6,6 +6,7 @@ import { useInView } from "../../../hooks/useInView";
 import { useSetPageTitle } from "../../../hooks/useSetPageTitle";
 import { IS_CLOUD, LITE_DASHBOARD } from "../../../lib/const";
 import { useStore } from "../../../lib/store";
+import { getMainPageFilters } from "../../../lib/filterGroups";
 import { SubHeader } from "../components/SubHeader/SubHeader";
 import { MainSection } from "./components/MainSection/MainSection";
 import { MainSectionLite } from "./components/MainSection/MainSectionLite";
@@ -57,7 +58,7 @@ function MainPageContent() {
   if (LITE_DASHBOARD) {
     return (
       <div className="p-2 md:p-4 max-w-[1100px] mx-auto space-y-3">
-        <SubHeader />
+        <SubHeader availableFilters={getMainPageFilters(isApp)} />
         <MainSectionLite />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
           <LazySection>
@@ -79,7 +80,7 @@ function MainPageContent() {
 
   return (
     <div className="p-2 md:p-4 max-w-[1100px] mx-auto space-y-3">
-      <SubHeader />
+      <SubHeader availableFilters={getMainPageFilters(isApp)} />
       <MainSection />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
         {!isApp && (
