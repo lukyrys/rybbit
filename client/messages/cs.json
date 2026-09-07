@@ -822,7 +822,7 @@
   "8UzT6d": "CSV",
   "9y9QQh": "JSON",
   "yaMHMB": "Výsledky",
-  "u3e151": "{count, plural, one {# řádek} few {# řádky} other {# řádků}}",
+  "u3e151": "Počet řádků: {count}",
   "0eYAOP": "Nespuštěno",
   "uDXLhQ": "Nebyly vráceny žádné řádky",
   "ICdFJO": "Spustit dotaz",
