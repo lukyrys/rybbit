@@ -36,6 +36,7 @@ import { useUserOrganizations } from "@/api/admin/hooks/useOrganizations";
 import { useGetSitesFromOrg } from "@/api/admin/hooks/useSites";
 import { BACKEND_URL } from "@/lib/const";
 import { resizeImageToIcon } from "@/lib/imageUtils";
+import { useSiteIcons } from "@/lib/siteIcons";
 import { isValidDomain, isValidPackageName, normalizeDomain } from "@/lib/utils";
 import { adminMoveSite } from "@/api/admin/endpoints/adminSites";
 import { RemoteOrganizationCombobox } from "@/app/admin/components/shared/RemoteOrganizationCombobox";
@@ -85,7 +86,8 @@ export function GeneralTab({
   const [targetOrgId, setTargetOrgId] = useState("");
   const [targetOrgName, setTargetOrgName] = useState("");
   const [isMoving, setIsMoving] = useState(false);
-  const [iconVersion, setIconVersion] = useState(0);
+  const iconVersion = useSiteIcons(state => state.versions[siteMetadata.siteId] ?? 0);
+  const invalidateIcon = useSiteIcons(state => state.invalidate);
   const [isUploadingIcon, setIsUploadingIcon] = useState(false);
   const [isDeletingIcon, setIsDeletingIcon] = useState(false);
   const isMutatingIcon = isUploadingIcon || isDeletingIcon;
@@ -391,7 +393,7 @@ export function GeneralTab({
                     try {
                       const base64 = await resizeImageToIcon(file);
                       await uploadSiteIcon(siteMetadata.siteId, base64);
-                      setIconVersion(v => v + 1);
+                      invalidateIcon(siteMetadata.siteId);
                       toast.success(t("Icon uploaded"));
                     } catch {
                       toast.error(t("Failed to upload icon"));
@@ -414,7 +416,7 @@ export function GeneralTab({
                   setIsDeletingIcon(true);
                   try {
                     await deleteSiteIcon(siteMetadata.siteId);
-                    setIconVersion(v => v + 1);
+                    invalidateIcon(siteMetadata.siteId);
                     toast.success(t("Icon removed"));
                   } catch {
                     toast.error(t("Failed to remove icon"));

@@ -2,6 +2,7 @@ import { Smartphone } from "lucide-react";
 import { useState } from "react";
 import { BACKEND_URL } from "../lib/const";
 import { cn } from "../lib/utils";
+import { useSiteIcons } from "../lib/siteIcons";
 
 export function Favicon({
   domain,
@@ -14,17 +15,23 @@ export function Favicon({
   siteType?: "web" | "mobile" | null;
   siteId?: number;
 }) {
-  const [imageError, setImageError] = useState(false);
+  const iconVersion = useSiteIcons(state => (siteId === undefined ? 0 : (state.versions[siteId] ?? 0)));
+  const src =
+    siteType === "mobile"
+      ? `${BACKEND_URL}/sites/${siteId}/icon?v=${iconVersion}`
+      : `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const imageError = failedSrc === src;
   const firstLetter = domain.charAt(0).toUpperCase();
 
   if (siteType && siteType !== "web") {
     if (siteId !== undefined && !imageError) {
       return (
         <img
-          src={`${BACKEND_URL}/sites/${siteId}/icon`}
+          src={src}
           className={cn("rounded", className ?? "w-4 h-4")}
           alt={`Icon for ${domain}`}
-          onError={() => setImageError(true)}
+          onError={() => setFailedSrc(src)}
         />
       );
     }
@@ -56,10 +63,10 @@ export function Favicon({
 
   return (
     <img
-      src={`https://icons.duckduckgo.com/ip3/${domain}.ico`}
+      src={src}
       className={cn(className ?? "w-4 h-4")}
       alt={`Favicon for ${domain}`}
-      onError={() => setImageError(true)}
+      onError={() => setFailedSrc(src)}
     />
   );
 }
